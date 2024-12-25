@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice Generation System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        h1, h2 {
+            text-align: center;
+            color: #4CAF50;
+        }
+        .form-container, .invoice-container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            color: #555;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #f5f5f5;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #fdfdfd;
+        }
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+            text-align: left;
+        }
+        td {
+            padding: 10px;
+        }
+        .total {
+            text-align: right;
+            font-weight: bold;
+            color: #333;
+        }
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .button-container button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 5px;
+            cursor: pointer;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            background-color: #4CAF50;
+            transition: background-color 0.3s;
+        }
+        .button-container button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Invoice Generation System</h1>
+
+    <div class="form-container">
+        <h2>Enter Details</h2>
+        <div class="form-group">
+            <label for="customerName">Customer Name:</label>
+            <input type="text" id="customerName" placeholder="Enter customer name">
+        </div>
+        <div class="form-group">
+            <label for="customerAddress">Customer Address:</label>
+            <input type="text" id="customerAddress" placeholder="Enter customer address">
+        </div>
+        <div class="form-group">
+            <label for="itemDescription">Item Description:</label>
+            <input type="text" id="itemDescription" placeholder="Enter item description">
+        </div>
+        <div class="form-group">
+            <label for="quantity">Quantity:</label>
+            <input type="number" id="quantity" placeholder="Enter quantity">
+        </div>
+        <div class="form-group">
+            <label for="price">Price per Unit:</label>
+            <input type="number" id="price" placeholder="Enter price per unit">
+        </div>
+        <div class="form-group">
+            <label for="taxRate">Tax Rate (%):</label>
+            <input type="number" id="taxRate" placeholder="Enter tax rate">
+        </div>
+        <div class="button-container">
+            <button onclick="generateInvoice()">Generate Invoice</button>
+        </div>
+    </div>
+
+    <div class="invoice-container" id="invoice" style="display: none;">
+        <h2>Invoice</h2>
+        <p><strong>Customer Name:</strong> <span id="invoiceCustomerName"></span></p>
+        <p><strong>Customer Address:</strong> <span id="invoiceCustomerAddress"></span></p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Item Description</th>
+                    <th>Quantity</th>
+                    <th>Price per Unit</th>
+                    <th>Total Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td id="invoiceItemDescription"></td>
+                    <td id="invoiceQuantity"></td>
+                    <td id="invoicePrice"></td>
+                    <td id="invoiceTotalPrice"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p class="total"><strong>Subtotal:</strong> ₹<span id="invoiceSubtotal"></span></p>
+        <p class="total"><strong>Tax:</strong> ₹<span id="invoiceTax"></span></p>
+        <p class="total"><strong>Total Amount:</strong> ₹<span id="invoiceTotal"></span></p>
+
+        <div class="button-container">
+            <button onclick="downloadInvoice()">Download as PDF</button>
+            <button onclick="window.print()">Print</button>
+        </div>
+    </div>
+
+    <script>
+        function generateInvoice() {
+            const customerName = document.getElementById('customerName').value;
+            const customerAddress = document.getElementById('customerAddress').value;
+            const itemDescription = document.getElementById('itemDescription').value;
+            const quantity = parseFloat(document.getElementById('quantity').value);
+            const price = parseFloat(document.getElementById('price').value);
+            const taxRate = parseFloat(document.getElementById('taxRate').value);
+
+            const totalPrice = quantity * price;
+            const tax = (totalPrice * taxRate) / 100;
+            const totalAmount = totalPrice + tax;
+
+            document.getElementById('invoiceCustomerName').textContent = customerName;
+            document.getElementById('invoiceCustomerAddress').textContent = customerAddress;
+            document.getElementById('invoiceItemDescription').textContent = itemDescription;
+            document.getElementById('invoiceQuantity').textContent = quantity;
+            document.getElementById('invoicePrice').textContent = price.toFixed(2);
+            document.getElementById('invoiceTotalPrice').textContent = totalPrice.toFixed(2);
+            document.getElementById('invoiceSubtotal').textContent = totalPrice.toFixed(2);
+            document.getElementById('invoiceTax').textContent = tax.toFixed(2);
+            document.getElementById('invoiceTotal').textContent = totalAmount.toFixed(2);
+
+            document.getElementById('invoice').style.display = 'block';
+        }
+
+        function downloadInvoice() {
+            alert('Download as PDF feature will be implemented soon.');
+        }
+    </script>
+</body>
+</html>
